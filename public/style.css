@@ -1,0 +1,120 @@
+
+/* Student management table */
+
+.students-page {
+    background: #f4f7f5;
+    min-height: 100vh;
+    padding: 30px;
+    color: #26382d;
+    font-family: Arial, sans-serif;
+}
+
+.students-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.students-header h1 {
+    color: #185c39;
+    font-size: 28px;
+    margin: 0 0 8px;
+}
+
+.students-header p {
+    color: #77847b;
+    margin: 0;
+}
+
+.table-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.05);
+    overflow-x: auto;
+}
+
+.students-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.students-table th {
+    background: #eaf4ed;
+    color: #185c39;
+    padding: 15px;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.students-table td {
+    padding: 15px;
+    border-bottom: 1px solid #edf0ed;
+    font-size: 14px;
+}
+
+.students-table tbody tr:hover {
+    background: #f8fbf9;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-edit,
+.btn-delete,
+.btn-add {
+    display: inline-block;
+    padding: 9px 13px;
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.btn-edit {
+    background: #e2f1e7;
+    color: #176b43;
+}
+
+.btn-edit:hover {
+    background: #cce7d5;
+}
+
+.btn-delete {
+    background: #fde8e7;
+    color: #b42318;
+}
+
+.btn-delete:hover {
+    background: #fbd2cf;
+}
+
+.btn-add {
+    background: #176b43;
+    color: white;
+}
+
+.btn-add:hover {
+    background: #105331;
+}
+
+@media (max-width: 600px) {
+    .students-page {
+        padding: 15px;
+    }
+
+    .table-card {
+        padding: 10px;
+    }
+
+    .students-header h1 {
+        font-size: 23px;
+    }
+}

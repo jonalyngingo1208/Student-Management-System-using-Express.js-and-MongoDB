@@ -1,15 +1,131 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Students</title>
+    <title>Student Management</title>
 
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background-color: #f4f6f9;
+            color: #333;
+        }
+
+        h1, h2 {
+            color: #2c3e50;
+        }
+
+        .welcome {
+            margin-bottom: 20px;
+        }
+
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #2c3e50;
+            color: white;
+        }
+
+        input {
+            width: 100%;
+            padding: 9px;
+            margin: 4px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button, .nav-btn {
+            display: inline-block;
+            padding: 10px 16px;
+            margin: 4px 2px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        button:hover, .nav-btn:hover {
+            opacity: 0.85;
+        }
+
+        .update-btn {
+            background-color: #3498db;
+        }
+
+        .delete-btn {
+            background-color: #e74c3c;
+        }
+
+        .add-btn {
+            background-color: #27ae60;
+        }
+
+        .logout-btn {
+            background-color: #e67e22;
+        }
+
+        .home-btn {
+            background-color: #34495e;
+        }
+
+        .add-form {
+            max-width: 450px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .student-actions {
+            min-width: 220px;
+        }
+
+        .update-form {
+            margin-bottom: 10px;
+        }
+
+        hr {
+            margin: 25px 0;
+            border: 0;
+            border-top: 1px solid #ddd;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                margin: 15px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -17,13 +133,11 @@
     <h1>Student Management</h1>
 
     <% if (user) { %>
-
-        <p>Welcome, <strong><%= user.name %></strong>!</p>
-
+        <p class="welcome">
+            Welcome, <strong><%= user.name %></strong>!
+        </p>
     <% } else { %>
-
-        <p>Welcome, Guest!</p>
-
+        <p class="welcome">Welcome, Guest!</p>
     <% } %>
 
     <hr>
@@ -32,96 +146,91 @@
 
     <% if (students.length === 0) { %>
 
-        <p>No students found.</p>
+        <p>No students found. Add a student below.</p>
 
     <% } else { %>
 
-        <table border="1" cellpadding="10">
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Course</th>
+                        <th>Age</th>
+                        <th>City</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
 
-            <tr>
+                <tbody>
+                    <% students.forEach(student => { %>
+                        <tr>
+                            <td><%= student.name %></td>
+                            <td><%= student.course %></td>
+                            <td><%= student.age %></td>
+                            <td><%= student.city %></td>
 
-                <th>Name</th>
+                            <td class="student-actions">
 
-                <th>Course</th>
+                                <form
+                                    class="update-form"
+                                    action="/students/update/<%= student._id %>"
+                                    method="POST"
+                                >
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        value="<%= student.name %>"
+                                        placeholder="Name"
+                                        required
+                                    >
 
-                <th>Age</th>
+                                    <input
+                                        type="text"
+                                        name="course"
+                                        value="<%= student.course %>"
+                                        placeholder="Course"
+                                        required
+                                    >
 
-                <th>City</th>
+                                    <input
+                                        type="number"
+                                        name="age"
+                                        value="<%= student.age %>"
+                                        placeholder="Age"
+                                        min="1"
+                                        required
+                                    >
 
-                <th>Actions</th>
+                                    <input
+                                        type="text"
+                                        name="city"
+                                        value="<%= student.city %>"
+                                        placeholder="City"
+                                        required
+                                    >
 
-            </tr>
+                                    <button type="submit" class="update-btn">
+                                        Update
+                                    </button>
+                                </form>
 
-            <% students.forEach(student => { %>
+                                <form
+                                    action="/students/delete/<%= student._id %>"
+                                    method="POST"
+                                    onsubmit="return confirm('Are you sure you want to delete this student?');"
+                                >
+                                    <button type="submit" class="delete-btn">
+                                        Delete
+                                    </button>
+                                </form>
 
-                <tr>
-
-                    <td><%= student.name %></td>
-
-                    <td><%= student.course %></td>
-
-                    <td><%= student.age %></td>
-
-                    <td><%= student.city %></td>
-
-                    <td>
-
-                        <!-- UPDATE -->
-
-                        <form action="/students/update/<%= student._id %>" method="POST">
-
-                            <input
-                                type="text"
-                                name="name"
-                                value="<%= student.name %>"
-                                required
-                            >
-
-                            <input
-                                type="text"
-                                name="course"
-                                value="<%= student.course %>"
-                                required
-                            >
-
-                            <input
-                                type="number"
-                                name="age"
-                                value="<%= student.age %>"
-                                required
-                            >
-
-                            <input
-                                type="text"
-                                name="city"
-                                value="<%= student.city %>"
-                                required
-                            >
-
-                            <button type="submit">Update</button>
-
-                        </form>
-
-                        <br>
-
-                        <!-- DELETE -->
-
-                        <form
-                            action="/students/delete/<%= student._id %>"
-                            method="POST"
-                        >
-
-                            <button type="submit">Delete</button>
-
-                        </form>
-
-                    </td>
-
-                </tr>
-
-            <% }) %>
-
-        </table>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
 
     <% } %>
 
@@ -129,46 +238,60 @@
 
     <h2>Add Student</h2>
 
-    <form action="/students" method="POST">
+    <form action="/students" method="POST" class="add-form">
 
-        <label>Name:</label>
+        <label for="name">Name:</label>
+        <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Enter student name"
+            required
+        >
 
-        <input type="text" name="name" required>
+        <label for="course">Course:</label>
+        <input
+            type="text"
+            id="course"
+            name="course"
+            placeholder="Enter course"
+            required
+        >
 
-        <br><br>
+        <label for="age">Age:</label>
+        <input
+            type="number"
+            id="age"
+            name="age"
+            placeholder="Enter age"
+            min="1"
+            required
+        >
 
-        <label>Course:</label>
+        <label for="city">City:</label>
+        <input
+            type="text"
+            id="city"
+            name="city"
+            placeholder="Enter city"
+            required
+        >
 
-        <input type="text" name="course" required>
-
-        <br><br>
-
-        <label>Age:</label>
-
-        <input type="number" name="age" required>
-
-        <br><br>
-
-        <label>City:</label>
-
-        <input type="text" name="city" required>
-
-        <br><br>
-
-        <button type="submit">Add Student</button>
+        <button type="submit" class="add-btn">
+            Add Student
+        </button>
 
     </form>
 
-    <br>
+    <hr>
 
-    <!-- LOGOUT -->
+    <a href="/logout" class="nav-btn logout-btn">
+        Logout
+    </a>
 
-    <a href="/logout">Logout</a>
-
-    <br><br>
-
-    <a href="/">Back to Home</a>
+    <a href="/" class="nav-btn home-btn">
+        Back to Home
+    </a>
 
 </body>
-
 </html>

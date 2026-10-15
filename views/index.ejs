@@ -4,14 +4,467 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Management System</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            color: #59173f;
+            background: #ffffff;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 22px 8%;
+            background: white;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.04);
+        }
+
+        .logo {
+            font-size: 23px;
+            font-weight: bold;
+            color: #244eaf;
+        }
+
+        .nav-login {
+            background: #3768f5;
+            color: white;
+            text-decoration: none;
+            padding: 12px 23px;
+            border-radius: 9px;
+            font-weight: bold;
+        }
+
+        .hero {
+            min-height: 620px;
+            padding: 60px 8%;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #f8faff, #edf3ff);
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            width: 100%;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 50px;
+        }
+
+        .hero-text {
+            flex: 1;
+        }
+
+        .tagline {
+            color: #3768f5;
+            font-size: 18px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        h1 {
+            font-size: clamp(38px, 5vw, 60px);
+            line-height: 1.12;
+            margin-bottom: 24px;
+            color: #172d59;
+        }
+
+        .description {
+            max-width: 520px;
+            color: #62718e;
+            font-size: 18px;
+            line-height: 1.8;
+            margin-bottom: 32px;
+        }
+
+        .main-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 20px;
+            background: linear-gradient(135deg, #4778ff, #2855e8);
+            color: white;
+            padding: 18px 28px;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 17px;
+            font-weight: bold;
+            box-shadow: 0 8px 20px rgba(49, 91, 230, 0.25);
+            transition: 0.3s;
+        }
+
+        .main-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 25px rgba(49, 91, 230, 0.35);
+        }
+
+        .main-btn span {
+            font-size: 24px;
+        }
+
+        /* Student illustration */
+
+        .hero-illustration {
+            flex: 1;
+            max-width: 480px;
+            height: 390px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .circle {
+            position: absolute;
+            width: 330px;
+            height: 330px;
+            border-radius: 50%;
+            background: #dce7ff;
+        }
+
+        .student-card {
+            position: absolute;
+            top: 75px;
+            left: 15px;
+            width: 280px;
+            min-height: 190px;
+            padding: 25px 20px;
+            background: white;
+            border: 1px solid #e0e8ff;
+            border-radius: 18px;
+            box-shadow: 0 15px 40px rgba(42, 72, 130, 0.12);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 1;
+        }
+
+        .avatar {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            background: #dce7ff;
+            color: #4778ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 35px;
+            flex-shrink: 0;
+        }
+
+        .student-lines {
+            flex: 1;
+        }
+
+        .student-lines span {
+            display: block;
+            height: 10px;
+            border-radius: 10px;
+            background: #d4dfff;
+            margin: 12px 0;
+        }
+
+        .student-lines span:first-child {
+            width: 100%;
+            background: #4778ff;
+        }
+
+        .student-lines span:nth-child(2) {
+            width: 80%;
+        }
+
+        .student-lines span:nth-child(3) {
+            width: 60%;
+        }
+
+        .books {
+            position: absolute;
+            width: 240px;
+            height: 130px;
+            bottom: 20px;
+            right: 0;
+            z-index: 2;
+        }
+
+        .book {
+            position: absolute;
+            width: 220px;
+            height: 32px;
+            border-radius: 6px;
+        }
+
+        .book-one {
+            bottom: 0;
+            background: #243e78;
+            border-bottom: 5px solid #172d59;
+        }
+
+        .book-two {
+            bottom: 35px;
+            left: 10px;
+            background: white;
+            border-bottom: 5px solid #d5e1ff;
+        }
+
+        .book-three {
+            bottom: 70px;
+            left: 20px;
+            background: #4778ff;
+            border-bottom: 5px solid #2855e8;
+        }
+
+        .graduation-cap {
+            position: absolute;
+            top: -45px;
+            left: 75px;
+            width: 100px;
+            height: 65px;
+            z-index: 3;
+        }
+
+        .cap-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 85px;
+            height: 40px;
+            background: #244eaf;
+            transform: rotate(45deg) skew(-10deg, -10deg);
+            border-radius: 5px;
+        }
+
+        .cap-base {
+            position: absolute;
+            top: 25px;
+            left: 12px;
+            width: 65px;
+            height: 22px;
+            background: #4778ff;
+            border-radius: 0 0 30px 30px;
+        }
+
+        .tassel {
+            position: absolute;
+            top: 18px;
+            right: 5px;
+            width: 4px;
+            height: 35px;
+            background: #f5b942;
+            transform: rotate(-15deg);
+        }
+
+        /* Features section */
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            padding: 45px 8%;
+            max-width: 1400px;
+            margin: auto;
+        }
+
+        .feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .feature-icon {
+            width: 52px;
+            height: 52px;
+            min-width: 52px;
+            border-radius: 50%;
+            background: #e6edff;
+            color: #3768f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .feature h3 {
+            font-size: 16px;
+            margin: 5px 0 10px;
+        }
+
+        .feature p {
+            color: #7886a0;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #7886a0;
+            font-size: 13px;
+        }
+
+        /* Mobile responsive */
+
+        @media (max-width: 900px) {
+            .hero-content {
+                gap: 20px;
+            }
+
+            .features {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .hero-illustration {
+                transform: scale(0.85);
+            }
+        }
+
+        @media (max-width: 650px) {
+            .navbar {
+                padding: 20px 6%;
+                gap: 12px;
+            }
+
+            .logo {
+                font-size: 17px;
+            }
+
+            .nav-login {
+                padding: 10px 15px;
+                font-size: 14px;
+            }
+
+            .hero {
+                padding: 50px 7% 20px;
+            }
+
+            .hero-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            h1 {
+                font-size: 39px;
+            }
+
+            .description {
+                font-size: 16px;
+            }
+
+            .hero-illustration {
+                width: 100%;
+                max-width: 380px;
+                transform: scale(0.82);
+                transform-origin: top center;
+                margin-bottom: -55px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+                padding: 30px 8%;
+                gap: 25px;
+            }
+        }
+    </style>
 </head>
+
 <body>
 
-    <h1>Student Management System</h1>
+    <header class="navbar">
+        <div class="logo">🎓 Student Management System</div>
+        <a href="/login" class="nav-login">Login ↗</a>
+    </header>
 
-    <p>Welcome to the Student Management System.</p>
+    <section class="hero">
+        <div class="hero-content">
 
-    <a href="/login">Login</a>
+            <div class="hero-text">
+                <div class="tagline">— Your Students, Our Priority</div>
+
+                <h1>Student Management System</h1>
+
+                <p class="description">
+                    Manage student records easily with our simple
+                    and user-friendly student management application.
+                </p>
+
+                <a href="/login" class="main-btn">
+                    Login to Continue <span>→</span>
+                </a>
+            </div>
+
+            <div class="hero-illustration">
+                <div class="circle"></div>
+
+                <div class="student-card">
+                    <div class="avatar">●</div>
+
+                    <div class="student-lines">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+
+                <div class="books">
+                    <div class="book book-one"></div>
+                    <div class="book book-two"></div>
+                    <div class="book book-three"></div>
+
+                    <div class="graduation-cap">
+                        <div class="cap-top"></div>
+                        <div class="cap-base"></div>
+                        <div class="tassel"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="feature">
+            <div class="feature-icon">♟</div>
+            <div>
+                <h3>Manage Students</h3>
+                <p>Add, view, and update student records easily.</p>
+            </div>
+        </div>
+
+        <div class="feature">
+            <div class="feature-icon">▤</div>
+            <div>
+                <h3>Organize Data</h3>
+                <p>Keep your student information organized.</p>
+            </div>
+        </div>
+
+        <div class="feature">
+            <div class="feature-icon">✓</div>
+            <div>
+                <h3>Secure Access</h3>
+                <p>Access the system through your login page.</p>
+            </div>
+        </div>
+
+        <div class="feature">
+            <div class="feature-icon">ϟ</div>
+            <div>
+                <h3>Simple & Easy</h3>
+                <p>Designed for a smooth and easy experience.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        Student Management System © 2026 | All Rights Reserved
+    </footer>
 
 </body>
 </html>
